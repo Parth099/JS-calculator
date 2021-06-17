@@ -15,7 +15,30 @@
     <body>
         <h1 id="page-head">JS Calculator</h1>
         <div class="calc-cont">
-
+            <div id="output">
+                <p id="history">0</p>
+                <p id="number-space">0</p>
+            </div>
+            <button type="button" onclick="">C</button>
+            <button type="button" onclick="">/expo</button>
+            <button type="button" onclick="">FUNC</button>
+            <button type="button" onclick="pushOp(3)">*</button>
+            <button type="button" onclick="pushNum('9')">9</button>
+            <button type="button" onclick="pushNum('8')">8</button>
+            <button type="button" onclick="pushNum('7')">7</button>
+            <button type="button" onclick="pushOp(2)">/</button>
+            <button type="button" onclick="pushNum('6')">6</button>
+            <button type="button" onclick="pushNum('5')">5</button>
+            <button type="button" onclick="pushNum('4')">4</button>
+            <button type="button" onclick="pushOp(1)">-</button>
+            <button type="button" onclick="pushNum('3')">3</button>
+            <button type="button" onclick="pushNum('2')">2</button>
+            <button type="button" onclick="pushNum('1')">1</button>
+            <button type="button" onclick="pushOp(0)">+</button>
+            <button type="button" onclick="pushSign()">/pm</button>
+            <button type="button" onclick="pushNum('9')">0</button>
+            <button type="button" onclick="">/deci</button>
+            <button type="button" onclick="performCalcWrapper()">/eq</button>
         </div>
     </body>
 </html>

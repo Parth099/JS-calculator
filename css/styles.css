@@ -1,8 +1,40 @@
-body{
-    font-family: 'Montserrat', sans-serif;
-    box-sizing: border-box;
+body {
+  font-family: "Montserrat", sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 #page-head {
   text-align: center;
+}
+.calc-cont {
+  border: 1px black solid;
+  width: 400px;
+  height: 500px;
+  margin: 0 auto;
+
+  /*gridding*/
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+#output {
+  grid-area: 1/1 / span 1 / span 4;
+  padding: 0;
+  margin: 0;
+  border: 1px red solid;
+  display: flex;
+  flex-direction: column;
+}
+
+#history,
+#number-space {
+  border: 1px red solid;
+  text-align: right;
+}
+
+#number-space{
+  font-size: 3rem;
+  height: 100%;
 }
