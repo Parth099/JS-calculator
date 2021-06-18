@@ -28,9 +28,12 @@ function resetOperand(o){
     o.number = "";
     o.sign = 1;
     o.signStr = "";
-    decimal: false
+    o.decimal = false;
 }
 function operandToString(o){
+    if(o.number[o.number.length - 1] == "."){
+        o.number += "0"
+    }
     return `${o.signStr}${o.number}`;
 }
 //declare dom elements
@@ -42,7 +45,20 @@ function pushNum(digit){
     ns.textContent = (writeToNumber.signStr + writeToNumber.number) ?? 0;
 }
 
+function pushNumWrapper(sp){
+    let btn = document.getElementById("decimal")
+    if(sp == '.' && !writeToNumber.decimal){
+        writeToNumber.decimal ^= 1;
+        pushNum(".")
+        btn.classList.add("disabled")
+    }
+    if(sp == 'r'){
+        btn.classList.remove("disabled")
+    }
+}
+
 function pushOp(op){
+    pushNumWrapper("r")
     let ns = document.querySelector("#output > #number-space");
     let hs = document.querySelector("#output > #history");
 
@@ -74,7 +90,7 @@ function performCalcWrapper(){
 }
 
 function performCalc(numA, numB, op){
-
+    
     console.log(operandToString(numA), operandToString(numB), op)
 
     let a = parseFloat(operandToString(numA));
@@ -107,12 +123,12 @@ function writeResToOperand(result, o, neg = false){
     o.signStr = (o.sign == 1) ? "" : "-";
 
 }
-
 function moveToNextOp(result){
     writeResToOperand(result, operandA)
     resetOperand(operandB)
 }
 function pushResult(str){
+    pushNumWrapper("r")
     let hs = document.querySelector("#output > #history");
     hs.textContent = `${operandToString(operandA)} ${operator} ${operandToString(operandB)} =`
     document.querySelector("#output > #number-space").textContent = str;
