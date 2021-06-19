@@ -1,6 +1,10 @@
+:root {
+  --bkspsz: 50px;
+  --calcsz: 50px;
+}
+
 body {
   font-family: "Montserrat", sans-serif;
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
@@ -11,7 +15,7 @@ body {
 .calc-cont {
   border: 1px black solid;
   width: 400px;
-  height: 500px;
+  height: 550px;
   margin: 0 auto;
 
   /*gridding*/
@@ -23,18 +27,49 @@ body {
   grid-area: 1/1 / span 1 / span 4;
   padding: 0;
   margin: 0;
-  border: 1px red solid;
   display: flex;
   flex-direction: column;
+  border: red solid 1px;
+  margin: 0;
 }
 
 #history,
 #number-space {
-  border: 1px red solid;
   text-align: right;
+  font-size: 2rem;
 }
-
-#number-space{
+#number-space {
   font-size: 3rem;
   height: 100%;
+}
+
+.disabled {
+  background-color: red;
+}
+.bkspc {
+  width: var(--bkspsz);
+  height: var(--bkspsz);
+  position: absolute;
+  bottom: -5px;
+  left: 5px;
+  z-index: 1;
+  transform: scaleX(-1);
+}
+.ns-cont {
+  height: 100%;
+  position: relative;
+}
+.operator {
+  background-color: #ff7d1d;
+}
+.calc-sym {
+  width: var(--calcsz);
+  height: var(--calcsz);
+  
+  padding: 0;
+  margin: 0;
+}
+button {
+  border: none;
+  padding: 0;
 }

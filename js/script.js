@@ -22,6 +22,7 @@ var operatorHash = {
     1: "-",
     2: "/",
     3: "*",
+    4: "^",
 }
 
 function resetOperand(o){
@@ -32,17 +33,17 @@ function resetOperand(o){
 }
 function operandToString(o){
     if(o.number[o.number.length - 1] == "."){
-        o.number += "0"
+        o.number += "0";
     }
     return `${o.signStr}${o.number}`;
 }
-//declare dom elements
-var ns = document.querySelector("#output > #number-space");
 
 function pushNum(digit){
     writeToNumber.number += digit;
-    let ns = document.querySelector("#output > #number-space");
-    ns.textContent = (writeToNumber.signStr + writeToNumber.number) ?? 0;
+    let ns = document.querySelector("#output > div.ns-cont > #number-space");
+    let out = (writeToNumber.signStr + writeToNumber.number)
+    ns.textContent = (out) ? out : "0";
+    
 }
 
 function pushNumWrapper(sp){
@@ -59,7 +60,8 @@ function pushNumWrapper(sp){
 
 function pushOp(op){
     pushNumWrapper("r")
-    let ns = document.querySelector("#output > #number-space");
+    let ns = document.querySelector("#output > div.ns-cont > #number-space");
+    ns.textContent = "_";
     let hs = document.querySelector("#output > #history");
 
     prevOp = operator
@@ -76,6 +78,23 @@ function pushOp(op){
     }
     hs.textContent = `${operandToString(operandA)} ${operator}`
 }
+function popNumberWrapper(){
+    if(writeToNumber.number.length > 0 && writeToNumber.number != "0"){
+        popNumber();
+    }
+}
+function popNumber(){
+    let end = writeToNumber.number.length - 1
+    let popped = writeToNumber.number[end];
+    writeToNumber.number = writeToNumber.number.slice(0, end);
+
+    if(popped == "."){
+        writeToNumber.decimal ^= 1;
+        pushNumWrapper('r') //reset decimal button
+    }
+
+    pushNum("") //empty push to display update
+}
 
 function pushSign(){
     writeToNumber.sign *= -1;
@@ -84,7 +103,7 @@ function pushSign(){
 }
 
 function performCalcWrapper(){
-    if(operandA.number && operandB.number && operator){
+    if(operandB.number && operator){
         performCalc(operandA, operandB, operator);
     }
 }
@@ -93,6 +112,10 @@ function performCalc(numA, numB, op){
     
     console.log(operandToString(numA), operandToString(numB), op)
 
+    if(!numA.number){
+        numA.number = "0"
+    }
+     //if user fails to input first number
     let a = parseFloat(operandToString(numA));
     let b = parseFloat(operandToString(numB));
     let mainStr = ""
@@ -108,6 +131,9 @@ function performCalc(numA, numB, op){
     }
     else if(op == "/"){
         mainStr += a / b;
+    }
+    else if(op == "^"){
+        mainStr += Math.pow(a, b)
     }
     pushResult(mainStr);
 }
@@ -130,8 +156,8 @@ function moveToNextOp(result){
 function pushResult(str){
     pushNumWrapper("r")
     let hs = document.querySelector("#output > #history");
-    hs.textContent = `${operandToString(operandA)} ${operator} ${operandToString(operandB)} =`
-    document.querySelector("#output > #number-space").textContent = str;
+    hs.textContent = `${operandToString(operandA)} ${operator} ${operandToString(operandB)} = `
+    document.querySelector("#output > div.ns-cont > #number-space").textContent = str;
 
     moveToNextOp(str)
 }
