@@ -23,8 +23,8 @@
                     <img src="img/bkspc.png" class="bkspc" onclick="popNumberWrapper()">
                 </div>
             </div>
-            <button type="button" onclick="">C</button>
-            <button type="button" onclick="">FUNC</button>
+            <button id="clear" type="button" onclick="clearCalc()">C</button>
+            <button class="func" type="button" onclick="log()"><span>ln</span></button>
             <button class="operator"type="button" onclick="pushOp(4)">
                 <img class="calc-sym" src="img/caret.png"></button>
             </button>
@@ -32,37 +32,40 @@
                 <img class="calc-sym" src="img/mult.png">
             </button>
 
-            <button type="button" onclick="pushNum('9')">9</button>
-            <button type="button" onclick="pushNum('8')">8</button>
-            <button type="button" onclick="pushNum('7')">7</button>
+            <button class="number" type="button" onclick="pushNumWrapper('9')">9</button>
+            <button class="number" type="button" onclick="pushNumWrapper('8')">8</button>
+            <button class="number" type="button" onclick="pushNumWrapper('7')">7</button>
             <button class="operator" type="button" onclick="pushOp(2)">
                 <img class="calc-sym" src="img/divide.png"></button>
 
             </button>
-            <button type="button" onclick="pushNum('6')">6</button>
-            <button type="button" onclick="pushNum('5')">5</button>
-            <button type="button" onclick="pushNum('4')">4</button>
+            <button class="number" type="button" onclick="pushNumWrapper('6')">6</button>
+            <button class="number" type="button" onclick="pushNumWrapper('5')">5</button>
+            <button class="number" type="button" onclick="pushNumWrapper('4')">4</button>
 
             <button class="operator" type="button" onclick="pushOp(1)">
                 <img class="calc-sym" src="img/minus.png">
             </button>
-            <button type="button" onclick="pushNum('3')">3</button>
+            <button class="number"  type="button" onclick="pushNumWrapper('3')">3</button>
 
-            <button type="button" onclick="pushNum('2')">2</button>
-            <button type="button" onclick="pushNum('1')">1</button>
+            <button class="number" type="button" onclick="pushNumWrapper('2')">2</button>
+            <button class="number" type="button" onclick="pushNumWrapper('1')">1</button>
 
             <button class="operator" type="button" onclick="pushOp(0)">
                 <img class="calc-sym" src="img/pls.png">
             </button>
 
-            <button class="" type="button" onclick="pushSign()">/pm</button>
+            <button class="" type="button" onclick="pushSign()">
+                <img class="calc-sym" src="img/pm.png">
+            </button>
 
-            <button type="button" onclick="pushNum('0')">0</button>
+            <button class="number" type="button" onclick="pushNumWrapper('0')">0</button>
 
-            <button class="" type="button" id="decimal" onclick="pushNumWrapper('.')">/deci</button>
+            <button class="" type="button" id="decimal" onclick="pushNumWrapper('.')">.</button>
             <button class="operator" type="button" onclick="performCalcWrapper()">
                 <img class="calc-sym" src="img/eq.png">
             </button>
         </div>
+        <p class="msg"></p>
     </body>
 </html>
