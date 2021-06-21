@@ -134,7 +134,7 @@ function pushSign(){
 }
 
 function performCalcWrapper(){
-    if(isNull(operandB)){
+    if(isNull(operandB) && operator){  
         copyOperand(prevOperand, operandB);
         performCalc(operandA, operandB, operator);
     }
