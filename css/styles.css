@@ -5,6 +5,7 @@
 
 body {
   font-family: "Montserrat", sans-serif;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
@@ -51,6 +52,7 @@ body {
   padding-top: 10px;
   padding-right: 5px;
   animation: bk-calc 10s ease infinite;
+  height: 100%;
 }
 
 #history,

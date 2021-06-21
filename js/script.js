@@ -22,7 +22,7 @@ var prevOperand = {
     decimal: false,
 }
 
-var operator, prevOp;
+var operator, prevOp, writerFlag;
 var writeToNumber = operandA;
 var last_res;
 
@@ -81,7 +81,19 @@ function pushNumWrapper(sp){
             writeToNumber.decimal = false;
         }
         else{
-            pushNum((sp == '.') ? "" : sp)
+            if(writeToNumber == operandB){
+                if(operator){
+                    pushNum(sp)
+                }
+                else{
+                    showMessage("Operator must be chosen prior to an Operation!")
+                }
+            }
+            else{
+                sp = (sp == ".") ? "": sp;
+                pushNum(sp)
+            }
+            //only push number for 2nd-ary if-f operator is defined
         }
     }
 }
@@ -147,7 +159,7 @@ function performCalc(numA, numB, op){
 
     copyOperand(numB, prevOperand);
     prevOp = op;
-
+    operator = undefined;
     console.log(numA, numB, op)
 
     if(!numA.number){
@@ -203,7 +215,7 @@ function moveToNextOp(result){
 function pushResult(str){
     pushNumWrapper("r")
     let hs = document.querySelector("#output > #history");
-    hs.textContent = `${operandToString(operandA)} ${operator} ${operandToString(operandB)} = `
+    hs.textContent = `${operandToString(operandA)} ${prevOp} ${operandToString(operandB)} = `
     document.querySelector("#output > div.ns-cont > #number-space").textContent = str;
     moveToNextOp(str)
 }
@@ -291,4 +303,5 @@ function WindowListener(e){
 function main(){
     window.addEventListener("keydown", WindowListener)
 }  
+
 main()
