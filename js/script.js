@@ -1,4 +1,6 @@
 //declare constants
+var MAXFIT = 10;
+
 var operandA = {
     number: "",
     sign: 1,
@@ -13,18 +15,38 @@ var operandB = {
     decimal: false,
 };
 
+var prevOperand = {
+    number: "",
+    sign: 1,
+    signStr: "",
+    decimal: false,
+}
+
 var operator, prevOp;
 var writeToNumber = operandA;
 var last_res;
 
 var operatorHash = {
-    0: "+",
-    1: "-",
-    2: "/",
-    3: "*",
-    4: "^",
+    61: "+",
+    173: "-",
+    191: "/",
+    56: "*",
+    54: "^",
 }
 
+function copyOperand(a, b){
+    b.number = a.number;
+    b.sign = a.sign;
+    b.signStr = a.signStr;
+    b.decimal = a.decimal;
+}
+
+function isNull(o){
+    return o.number == "" && o.sign == 1 && o.signStr == "" && !o.decimal;
+}
+function pushToHistory(str){
+    document.querySelector("#output > #history").textContent = str;
+}
 function resetOperand(o){
     o.number = "";
     o.sign = 1;
@@ -50,7 +72,6 @@ function pushNumWrapper(sp){
     if(writeToNumber.number.length < 13){
         let btn = document.getElementById("decimal")
         if(sp == '.' && !writeToNumber.decimal){
-            console.log("hit")
             writeToNumber.decimal = true;
             pushNum(".")
             btn.classList.add("disabled")
@@ -72,8 +93,8 @@ function pushOp(op){
     ns.textContent = "_";
     let hs = document.querySelector("#output > #history");
 
-    prevOp = operator
-    operator = operatorHash[op];
+    prevOp = operator;
+    operator = op;
     writeToNumber = operandB ;
 
     
@@ -82,6 +103,7 @@ function pushOp(op){
 
     if(writeToNumber.number && prevOp){
         performCalc(operandA, operandB, prevOp);
+        //showMessage("Operator not specified, Previous Operator used.")
         prevOp = undefined;
     }
     hs.textContent = `${operandToString(operandA)} ${operator}`
@@ -112,12 +134,22 @@ function pushSign(){
 }
 
 function performCalcWrapper(){
+    if(isNull(operandB)){
+        copyOperand(prevOperand, operandB);
+        performCalc(operandA, operandB, operator);
+    }
     if(operandB.number && operator){
         performCalc(operandA, operandB, operator);
     }
 }
 
 function performCalc(numA, numB, op){
+
+    copyOperand(numB, prevOperand);
+    prevOp = op;
+
+    console.log(numA, numB, op)
+
     if(!numA.number){
         numA.number = "0"
     }
@@ -148,8 +180,9 @@ function performCalc(numA, numB, op){
     else{
         let result = truncNumber(mainStr);
         last_res = result;
-        pushResult(result);
+        pushResult(truncNumber(result));
     }
+    
 }
 
 function writeResToOperand(result, o, neg = false){
@@ -177,23 +210,22 @@ function pushResult(str){
 
 //math
 function truncNumber(num){ //num  --> str
+    console.log(num)
    if(num.includes("e")){
-       //expo mode active
        let loc = num.indexOf("e");
-       showMessage("Number has been truncated,\n Precision reduced");
-       return num.slice(0, Math.min(9, loc)) + num.slice(loc)
+       let end = (num.slice(loc+2) == "0")
+       //showMessage("Number has been truncated,\n Decimal Precision reduced");
+       return num.slice(0, Math.min(MAXFIT - 1, loc)) + ( (end) ? "" : num.slice(loc) );
        
    }
    else if(num.length > 10){
-       max = Math.min(10, num.length);
        showMessage("Number has been truncated,\n Precision reduced");
-       return parseFloat(num.slice(0, max)).toExponential();
+       num = parseFloat(num).toExponential()
    }
    return num;
 }
 
 function clearCalc(){
-    console.log("clear");
     resetOperand(operandA);
     resetOperand(operandB)
     operator = undefined;
@@ -206,9 +238,57 @@ function showMessage(str){
     let p = document.querySelector(".msg");
     p.textContent = str;
 }
-
 function log(){
-    writeToNumber.number = truncNumber(Math.log(parseFloat(writeToNumber.number))+"0")
-    console.log(writeToNumber)
-    pushNum("") //empty update to display log
+
+    if(isNull(operandB)){
+        writeToNumber = operandA;
+    }
+
+    x = parseFloat(writeToNumber.number) //assume num > 0
+    console.log(x)
+
+    if(x == 0 || Number.isNaN(x)){
+        showMessage("Ln(0) is not defined!")
+        pushNum("")
+        return
+    }
+
+    x = Math.log(x).toExponential()
+
+    if(x < 0){
+        writeToNumber.sign *= 1;
+        writeToNumber.signStr = "-"
+    }
+    writeToNumber.number = truncNumber(""+x)
+    pushNum("")
+
+    
 }
+
+function WindowListener(e){
+    console.log(e)
+    let keyPressed = e.keyCode;
+    if(keyPressed > 47 && keyPressed < 58 && !e.shiftKey){
+        pushNumWrapper(String.fromCharCode(keyPressed));
+    }
+    else if(operatorHash[keyPressed]){
+        pushOp(operatorHash[keyPressed]);
+    }
+    else if(keyPressed == 13){
+        performCalcWrapper();
+    }
+    else if(keyPressed == 8){
+        popNumberWrapper();
+    }
+    else if(keyPressed == 190){
+        pushNumWrapper(".")
+    }
+    else if(keyPressed == 67){
+        clearCalc()
+    }
+}
+//add keydown
+function main(){
+    window.addEventListener("keydown", WindowListener)
+}  
+main()

@@ -10,7 +10,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,700;1,100;1,200;1,300;1,400;1,600&display=swap" rel="stylesheet"> 
 
 
-        <script src="js/script.js"></script>
+        <script src="js/script.js" defer></script>
     </head>
     <body>
         <h1 id="page-head">JS Calculator</h1>
@@ -25,17 +25,17 @@
             </div>
             <button id="clear" type="button" onclick="clearCalc()">C</button>
             <button class="func" type="button" onclick="log()"><span>ln</span></button>
-            <button class="operator"type="button" onclick="pushOp(4)">
+            <button class="operator"type="button" onclick="pushOp('^')">
                 <img class="calc-sym" src="img/caret.png"></button>
             </button>
-            <button class="operator" type="button" onclick="pushOp(3)">
+            <button class="operator" type="button" onclick="pushOp('*')">
                 <img class="calc-sym" src="img/mult.png">
             </button>
 
             <button class="number" type="button" onclick="pushNumWrapper('9')">9</button>
             <button class="number" type="button" onclick="pushNumWrapper('8')">8</button>
             <button class="number" type="button" onclick="pushNumWrapper('7')">7</button>
-            <button class="operator" type="button" onclick="pushOp(2)">
+            <button class="operator" type="button" onclick="pushOp('/')">
                 <img class="calc-sym" src="img/divide.png"></button>
 
             </button>
@@ -43,7 +43,7 @@
             <button class="number" type="button" onclick="pushNumWrapper('5')">5</button>
             <button class="number" type="button" onclick="pushNumWrapper('4')">4</button>
 
-            <button class="operator" type="button" onclick="pushOp(1)">
+            <button class="operator" type="button" onclick="pushOp('-')">
                 <img class="calc-sym" src="img/minus.png">
             </button>
             <button class="number"  type="button" onclick="pushNumWrapper('3')">3</button>
@@ -51,7 +51,7 @@
             <button class="number" type="button" onclick="pushNumWrapper('2')">2</button>
             <button class="number" type="button" onclick="pushNumWrapper('1')">1</button>
 
-            <button class="operator" type="button" onclick="pushOp(0)">
+            <button class="operator" type="button" onclick="pushOp('+')">
                 <img class="calc-sym" src="img/pls.png">
             </button>
 

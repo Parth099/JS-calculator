@@ -19,12 +19,13 @@ body {
   margin: 0 auto;
   background: rgb(35, 103, 255);
   background: linear-gradient(358deg, #2367ff, #cd1aff);
-  background-size: 200% 200%;
+  background-size: 100% 200%;
   animation: bk-calc 10s ease infinite;
   /*gridding*/
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }
+
 @keyframes bk-calc {
   0% {
     background-position: 52% 0%;
@@ -97,6 +98,22 @@ button {
   font-size: 25px;
   font-family: "Montserrat", sans-serif;
 }
+button:hover {
+  animation-name: btn-hover;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+@keyframes btn-hover {
+  0% {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    background-color: rgba(0, 0, 0, 0.45);
+  }
+  100% {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
 .number {
 }
 #clear {
@@ -114,7 +131,7 @@ button {
   font-weight: bolder;
   font-style: italic;
 }
-.func > span{
+.func > span {
   font-weight: bold;
   font-size: 30px;
 }
