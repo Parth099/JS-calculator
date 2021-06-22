@@ -11,7 +11,7 @@ body {
   padding: 0;
   background-color: #6b7abb;
   color: white;
-
+  overflow: hidden;
 }
 
 #page-head {
@@ -135,11 +135,46 @@ button:hover {
 }
 .msg {
   margin-top: 10px;
-  text-align: center;
   font-weight: bolder;
   font-style: italic;
 }
 .func > span {
   font-weight: bold;
   font-size: 30px;
+}
+.tooltip {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 150px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 105%;
+}
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+/*from w3schools*/
+.tt-cont{
+  text-align: center;
 }
