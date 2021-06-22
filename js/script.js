@@ -144,6 +144,10 @@ function popNumber(){
 }
 
 function pushSign(){
+    if(!operator && writeToNumber == operandB){
+        showMessage("Choose an operation First!")
+        return;
+    }
     writeToNumber.sign *= -1;
     writeToNumber.signStr = (writeToNumber.sign == 1) ? "" : "-";
     //document.querySelector("#output > #history").textContent = last_res ?? "0";
