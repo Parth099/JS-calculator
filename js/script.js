@@ -72,15 +72,20 @@ function pushNumWrapper(sp){
     if(writeToNumber.number.length < 13){
         let btn = document.getElementById("decimal")
         if(sp == '.' && !writeToNumber.decimal){
+            console.log(writeToNumber.number)
             writeToNumber.decimal = true;
             pushNum(".")
             btn.classList.add("disabled")
+        }
+        else if(sp == "."){
+            return
         }
         else if(sp == 'r'){
             btn.classList.remove("disabled")
             writeToNumber.decimal = false;
         }
         else{
+            //need to fix this looks a bit too complex
             if(writeToNumber == operandB){
                 if(operator){
                     pushNum(sp)
@@ -90,7 +95,6 @@ function pushNumWrapper(sp){
                 }
             }
             else{
-                sp = (sp == ".") ? "": sp;
                 pushNum(sp)
             }
             //only push number for 2nd-ary if-f operator is defined
@@ -107,7 +111,8 @@ function pushOp(op){
 
     prevOp = operator;
     operator = op;
-    writeToNumber = operandB ;
+    writeToNumber = operandB;
+    resetOperand(writeToNumber)
 
     
     hs.textContent = `${operandToString(operandA)} ${operator}`
@@ -141,7 +146,7 @@ function popNumber(){
 function pushSign(){
     writeToNumber.sign *= -1;
     writeToNumber.signStr = (writeToNumber.sign == 1) ? "" : "-";
-    document.querySelector("#output > #history").textContent = last_res ?? "0";
+    //document.querySelector("#output > #history").textContent = last_res ?? "0";
     pushNum("") //simply updates display
 }
 
@@ -160,7 +165,6 @@ function performCalc(numA, numB, op){
     copyOperand(numB, prevOperand);
     prevOp = op;
     operator = undefined;
-    console.log(numA, numB, op)
 
     if(!numA.number){
         numA.number = "0"
@@ -199,30 +203,29 @@ function performCalc(numA, numB, op){
 
 function writeResToOperand(result, o, neg = false){
     if(result[0] == '-'){
-        writeResToOperand(result.slice(1), o, neg = true)
+        writeResToOperand(result.slice(1), o, neg = true);
     }
     o.number = result.slice(neg);
-    o.decimal = (result.includes(".")) ? true : false
+    o.decimal = (result.includes(".")) ? true : false;
 
     o.sign  = (neg) ? -1 : 1;
     o.signStr = (o.sign == 1) ? "" : "-";
 
 }
 function moveToNextOp(result){
-    writeResToOperand(result, operandA)
-    resetOperand(operandB)
+    writeResToOperand(result, operandA);
+    resetOperand(operandB);
 }
 function pushResult(str){
-    pushNumWrapper("r")
+    pushNumWrapper("r");
     let hs = document.querySelector("#output > #history");
     hs.textContent = `${operandToString(operandA)} ${prevOp} ${operandToString(operandB)} = `
     document.querySelector("#output > div.ns-cont > #number-space").textContent = str;
-    moveToNextOp(str)
+    moveToNextOp(str);
 }
 
 //math
 function truncNumber(num){ //num  --> str
-    console.log(num)
    if(num.includes("e")){
        let loc = num.indexOf("e");
        let end = (num.slice(loc+2) == "0")
@@ -232,7 +235,7 @@ function truncNumber(num){ //num  --> str
    }
    else if(num.length > 10){
        showMessage("Number has been truncated,\n Precision reduced");
-       num = parseFloat(num).toExponential()
+       num = parseFloat(num).toExponential();
    }
    return num;
 }
@@ -242,7 +245,7 @@ function clearCalc(){
     resetOperand(operandB)
     operator = undefined;
     writeToNumber = operandA;
-    pushNumWrapper("")
+    pushNumWrapper("");
     document.querySelector("#output > #history").textContent = "0";
 }
 
@@ -256,29 +259,27 @@ function log(){
         writeToNumber = operandA;
     }
 
-    x = parseFloat(writeToNumber.number) //assume num > 0
-    console.log(x)
+    x = parseFloat(writeToNumber.number); //assume num > 0
 
     if(x == 0 || Number.isNaN(x)){
-        showMessage("Ln(0) is not defined!")
-        pushNum("")
-        return
+        showMessage("Ln(0) is not defined!");
+        pushNum("");
+        return;
     }
 
     x = Math.log(x).toExponential()
 
     if(x < 0){
         writeToNumber.sign *= 1;
-        writeToNumber.signStr = "-"
+        writeToNumber.signStr = "-";
     }
-    writeToNumber.number = truncNumber(""+x)
-    pushNum("")
+    writeToNumber.number = truncNumber(""+x);
+    pushNum("");
 
     
 }
 
 function WindowListener(e){
-    console.log(e)
     let keyPressed = e.keyCode;
     if(keyPressed > 47 && keyPressed < 58 && !e.shiftKey){
         pushNumWrapper(String.fromCharCode(keyPressed));
@@ -293,15 +294,18 @@ function WindowListener(e){
         popNumberWrapper();
     }
     else if(keyPressed == 190){
-        pushNumWrapper(".")
+        pushNumWrapper(".");
     }
     else if(keyPressed == 67){
-        clearCalc()
+        clearCalc();
+    }
+    else if(keyPressed == 78){
+        pushSign();
     }
 }
 //add keydown
 function main(){
-    window.addEventListener("keydown", WindowListener)
+    window.addEventListener("keydown", WindowListener);
 }  
 
-main()
+main();
