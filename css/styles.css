@@ -1,6 +1,7 @@
 :root {
   --bkspsz: 50px;
   --calcsz: 50px;
+  --borderrd: 10px;
 }
 
 body {
@@ -8,15 +9,20 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  background-color: #6b7abb;
+  color: white;
+
 }
 
 #page-head {
   text-align: center;
+  margin-bottom: 10px;
 }
 .calc-cont {
   border: 1px black solid;
+  border-radius: var(--borderrd);
   width: 400px;
-  height: 550px;
+  height: 580px;
   margin: 0 auto;
   background: rgb(35, 103, 255);
   background: linear-gradient(358deg, #2367ff, #cd1aff);
@@ -29,13 +35,13 @@ body {
 
 @keyframes bk-calc {
   0% {
-    background-position: 52% 0%;
+    background-position: 50% 0%;
   }
   50% {
-    background-position: 49% 100%;
+    background-position: 50% 100%;
   }
   100% {
-    background-position: 52% 0%;
+    background-position: 50% 0%;
   }
 }
 
@@ -52,7 +58,7 @@ body {
   padding-top: 10px;
   padding-right: 5px;
   animation: bk-calc 10s ease infinite;
-  height: 100%;
+  border-radius: var(--borderrd) var(--borderrd) 0 0;
 }
 
 #history,
